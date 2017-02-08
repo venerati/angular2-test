@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PostsService } from 'services/posts.service';
+
 
 @Component({
   selector: 'user',
@@ -10,10 +12,14 @@ import { Component } from '@angular/core';
   <div *ngIf="showHobbies">
   <h3>Hobbies</h3>
 	  <ul>
-	  	<li *ngFor="let hobbies of hobbies">
-	  		{{hobbies}}
+	  	<li *ngFor="let hobbies of hobbies; let i = index">
+	  		{{hobbies}} <button (click)="deleteHobby(i)">X</button>
 	  	</li>
 	  </ul>
+	  <form (submit)="addHobby(hobby.value)">
+	  	<label> Add Hobby: </label><br />
+	  	<input type="text" #hobby /><br />
+	  </form>	
   </div>
   <form>
   	<label>Name: </label><br />
@@ -28,6 +34,7 @@ import { Component } from '@angular/core';
   	<input type="text" name="address.state" [(ngModel)]="address.state" /><br />
   </form>
   `,
+  providers: [PostsService]
 })
 export class UserComponent  { 
 	name: string; 
@@ -36,7 +43,7 @@ export class UserComponent  {
 	hobbies: string [];
 	showHobbies: boolean;
 
-	constructor(){
+	constructor(private postsService: PostsService){
 		this.name = 'James'; 
 		this.email = 'James@gmail.com';
 		this.address = {
@@ -46,6 +53,10 @@ export class UserComponent  {
 		}
 		this.hobbies = ['cars', 'computers', 'outdoors'];
 		this.showHobbies = false;
+
+		this.postsService.getPosts().subscribe(posts => {
+			console.log(posts);
+		})
 	}
 
 	toggleHobbies(){
@@ -56,6 +67,12 @@ export class UserComponent  {
 			this.showHobbies = false;
 		}
 		
+	}
+	addHobby(hobby) {
+		this.hobbies.push(hobby);
+	}
+	deleteHobby(i){
+		this.hobbies.splice(i,1);
 	}
 }
 
