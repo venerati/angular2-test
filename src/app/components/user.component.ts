@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   <h1>Hello {{name}}</h1>
   <p>Email: {{email}} </p>
   <p>Address: {{address.street}}, {{address.city}}, {{address.state}}</p>
-  <button  (click)="toggleHobbies()"> show hobbies </button>
+  <button  (click)="toggleHobbies()">{{showHobbies ? "Hide Hobbies" : "Show Hobbies"}}</button>
   <div *ngIf="showHobbies">
   <h3>Hobbies</h3>
 	  <ul>
@@ -15,6 +15,18 @@ import { Component } from '@angular/core';
 	  	</li>
 	  </ul>
   </div>
+  <form>
+  	<label>Name: </label><br />
+  	<input type="text" name="name" [(ngModel)]="name" /><br />
+  	<label>Email: </label><br />
+  	<input type="text" name="email" [(ngModel)]="email" /><br />
+  	<label>Address: </label><br />
+  	<input type="text" name="address.street" [(ngModel)]="address.street" /><br />
+  	<label>City: </label><br />
+  	<input type="text" name="address.city" [(ngModel)]="address.city" /><br />
+  	<label>State: </label><br />
+  	<input type="text" name="address.state" [(ngModel)]="address.state" /><br />
+  </form>
   `,
 })
 export class UserComponent  { 
@@ -32,7 +44,7 @@ export class UserComponent  {
 			city:'Dallas',
 			state: 'Texas',
 		}
-		this.hobbies = ['cars', 'copmuters', 'outdoors'];
+		this.hobbies = ['cars', 'computers', 'outdoors'];
 		this.showHobbies = false;
 	}
 
